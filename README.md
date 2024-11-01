@@ -1,2 +1,2 @@
 # lABORATORIO_G4
-Imokementación de una solución al problema del Laberinto
+Implementación de una solución al problema del Laberinto
