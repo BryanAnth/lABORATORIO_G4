@@ -1,4 +1,4 @@
-# Tamaño de cada celda en píxeles
+# Tamaño de cada celda en total de píxeles
 CELL_SIZE = 40
 
 def draw_grid(canvas, grid_size, obstacles, start, end):
