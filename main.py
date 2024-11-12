@@ -12,7 +12,7 @@ def main():
     # Crear el entorno
     grid = create_environment(10, 10, obstacles=[(1, 0), (1, 1), (3, 4), (5, 6), (7, 2)])
     start = (0, 0)
-    end = (9, 9)
+    end = (8, 9)
 
     # Configurar la interfaz de tkinter
     root = tk.Tk()
@@ -23,18 +23,11 @@ def main():
     # Dibujar el grid
     draw_grid(canvas, grid['size'], grid['obstacles'], start, end)
 
-    # Generar caminos aleatorios
-    cromosoma1 = Chromosome.random_chromosome(grid, start, end)
-    # #Dibujarcaminos
-    #draw_path(canvas, cromosoma1.path)
-    test(cromosoma1)
-    #draw_path(canvas, cromosoma2.path)
-
     ga = GeneticAlgorithm(grid, start, end, population_size=50, crossover_rate=0.7, mutation_rate=0.07, max_generations=30)
     best_solution = ga.run()
-    draw_path(canvas, best_solution.path)
+    draw_path(canvas, best_solution.getPathFullUnitSteps())
     
-    print(f"fines  0 y 300 :{calculate_fitness(best_solution, ga.population)}")
+    print(f"fitnes  0 - 300 :{calculate_fitness(best_solution, ga.population)}")
     # Ejecutar la ventana de tkinter
     root.mainloop()
 
