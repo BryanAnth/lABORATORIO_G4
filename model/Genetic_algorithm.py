@@ -39,6 +39,12 @@ class GeneticAlgorithm:
             # Agregar el mejor cromosoma (elitismo) a la próxima generación
             next_generation.append(best_solution)
 
+            # Lista temporal para cromosomas que aún no se han añadido
+            remaining_chromosomes = list(self.population.population)
+
+            # Remover el mejor cromosoma de los restantes
+            remaining_chromosomes.remove(best_solution)
+
             # Seleccionar cromosomas para crossover
             crossover_candidates = [
                 chromosome for chromosome, fitness in zip(self.population.population, fitness_scores)
@@ -46,25 +52,32 @@ class GeneticAlgorithm:
             ]
 
             # Aplicar crossover y agregar descendientes a la próxima generación
-            while len(next_generation) < int(self.population_size * 0.9):  # Rellenamos el 90% con crossover
+            while len(next_generation) < len(crossover_candidates):  # Rellenamos con crossover
                 if len(crossover_candidates) >= 2:
                     parent1, parent2 = random.sample(crossover_candidates, 2)
                     offspring1, offspring2 = crossover(parent1, parent2)
                     next_generation.extend([offspring1, offspring2])
 
+                    # Remover los padres de los restantes si ya no se necesitan
+                    if parent1 in remaining_chromosomes:
+                        remaining_chromosomes.remove(parent1)
+                    if parent2 in remaining_chromosomes:
+                        remaining_chromosomes.remove(parent2)
+
             # Aplicar mutación a un 7% de la población restante
             mutation_candidates = [
-                chromosome for chromosome in self.population.population
-                if chromosome not in next_generation and random.random() < self.mutation_rate
+                chromosome for chromosome in remaining_chromosomes
+                if random.random() < self.mutation_rate
             ]
 
             for chromosome in mutation_candidates:
                 mutate(chromosome, self.grid)
                 next_generation.append(chromosome)
+                remaining_chromosomes.remove(chromosome)
 
             # Si aún falta llenar la población, completamos con nuevos cromosomas aleatorios
-            while len(next_generation) < self.population_size:
-                next_generation.append(Chromosome.random_chromosome(self.grid, self.start, self.end))
+            while len(next_generation) < self.population_size and remaining_chromosomes:
+                next_generation.append(remaining_chromosomes.pop())
 
             # Actualizamos la población con la próxima generación
             self.population.population = next_generation

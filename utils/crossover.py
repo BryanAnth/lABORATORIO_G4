@@ -8,7 +8,7 @@ def crossover(parent1, parent2):
         return parent1, parent2
 
     # Selecciona un punto de cruce aleatorio dentro de un rango válido
-    cross_point = random.randint(1, len(parent1.path) - 2)
+    cross_point = random.randint(1, min(len(parent1.path), len(parent2.path)) - 2)
 
     # Realiza el crossover en el punto de cruce
     offspring1_path = parent1.path[:cross_point] + parent2.path[cross_point:]

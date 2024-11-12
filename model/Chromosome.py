@@ -94,8 +94,11 @@ class Chromosome:
         path = [start]
         orientation = []
         direction = []
+        steps = 0  # Contador de pasos
+        max_steps = grid['max_steps']
         
-        while path[-1] != end and path[-1][0] != 9:
+        while path[-1] != end and steps < max_steps:
+            print(f"Step {steps}: Current position {path[-1]}, trying to reach {end}")
             # Elegir orientación aleatoriamente
             current_orientation = random.choice([0, 1])  # 0 = Column-wise, 1 = Row-wise
             current_direction = random.choice([0, 1])  # 0 = Primero vertical, 1 = Primero horizontal
@@ -107,12 +110,10 @@ class Chromosome:
             if current_orientation == 1:  # Row-wise
                 next_x = current_x + 1 
                 next_y = random.randint(0, grid['size'][1] - 1)
-                # print((next_x, next_y))
 
             else:  # Column-wise
                 next_x = random.randint(0, grid['size'][0] - 1)
                 next_y = current_y + 1 
-                
 
             # Asegurarse de que el siguiente paso esté dentro de los límites y no sea un obstáculo
             if (0 <= next_x < grid['size'][0] and 0 <= next_y < grid['size'][1] and
@@ -121,6 +122,8 @@ class Chromosome:
                 orientation.append(current_orientation)
                 direction.append(current_direction)
                 path.append((next_x, next_y))
+
+            steps += 1
         
         return Chromosome(path, orientation, direction)
     
