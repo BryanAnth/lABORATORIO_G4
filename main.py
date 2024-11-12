@@ -27,7 +27,7 @@ def main():
     best_solution = ga.run()
     draw_path(canvas, best_solution.getPathFullUnitSteps())
     
-    print(f"fitnes  0 y 300 :{calculate_fitness(best_solution, ga.population)}")
+    print(f"fitnes  0 - 300 :{calculate_fitness(best_solution, ga.population)}")
     # Ejecutar la ventana de tkinter
     root.mainloop()
 
