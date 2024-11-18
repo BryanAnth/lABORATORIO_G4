@@ -67,7 +67,7 @@ class GeneticAlgorithm:
             # Aplicar mutación a un 7% de la población restante
             mutation_candidates = [
                 chromosome for chromosome in remaining_chromosomes
-                if random.random() < self.mutation_rate
+                if random.random() < self.mutation_rate * self.population_size / len(remaining_chromosomes)
             ]
 
             for chromosome in mutation_candidates:
